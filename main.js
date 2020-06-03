@@ -1,7 +1,8 @@
 const opts = {
     channels: [
         twitchChannel
-    ]
+    ],
+    secure: location.protocol == "https"
 };
 
 let actionHandlers = {};
