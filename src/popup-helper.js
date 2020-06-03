@@ -1,55 +1,34 @@
 const popup = {
-    /**
-     * Displays popup on screen with the given text and colour.
-     */
-    showText: (text, bgColour) => {
-        $("#popupbox").show();
-        $("#popuptext").html(text);
-        $("#popupbox").css({ "background-color": bgColour });
-        $("#popuptext").css({ "opacity": 0, "margin-left": "50px" });
+    /* Displays popup on screen with the given text, font and colour. */
+    showText: (text, bgColour, textColour, textFont) => {
 
-        const textWidth = $("#popuptext").width();
-        $("#popupbox").width(1);
-        $("#popupbox").animate({ width: textWidth + 30 }, 500);
-        $("#popuptext").animate({ "opacity": 1, "margin-left": "15px" }, 700);
+        document.documentElement.style.setProperty('--bgColour', bgColour);
+        document.documentElement.style.setProperty('--textColour', textColour);
+        document.documentElement.style.setProperty('--textFont', textFont);
+
+        document.getElementById('popupbox').display = '';
+        document.getElementById('popuptext').innerHTML = text;
+        document.getElementById("popupbox").animate([{opacity: 0},{opacity:1}],{ duration: 500, easing: 'ease-in-out', fill: 'forwards'});   
+
+        const textWidth = parseFloat(getComputedStyle(document.getElementById('popuptext'), null).width.replace("px", ""))
+        document.getElementById('popupbox').style.setProperty('width', textWidth + 30 + 'px');
+
     },
-    /**
-     * Removes popup from screen and resets state of all commands 
-     */
+
+    /* Removes popup from screen and resets state of all commands */
     delete: () => {
         spotlightUser = ""; // TODO: Remove this
-        $("#popupbox").animate({ width: 0 }, 500);
-        $("#popuptext").animate({ "opacity": 0, "margin-left": "50px" }, 700);
+        document.getElementById("popupbox").animate([{opacity: 1},{opacity:0}],{ duration: 500, easing: 'ease-in-out', fill: 'forwards'});   
     },
-    /**
-     * Formats text with emotes, This must be past only and all message un-formatted or emotes wont be replaced properly
-     */
-    formatEmotes: (message, emotes, makeUpperCase) => {
+    
+    /* Formats text */
+    formatMessage: (message, makeUpperCase) => {
+
         //parse the message for html and remove any tags
         if (makeUpperCase) {
             message = message.toUpperCase();
         }
 
-        let newMessage = $($.parseHTML(message)).text().split("");
-
-        //replace any twitch emotes in the message with img tags for those emotes
-        if (twitchEmotes) {
-            for (let emoteIndex in emotes) {
-                const emote = emotes[emoteIndex];
-                for (let charIndexes in emote) {
-                    let emoteIndexes = emote[charIndexes];
-                    if (typeof emoteIndexes == "string") {
-                        emoteIndexes = emoteIndexes.split("-");
-                        emoteIndexes = [parseInt(emoteIndexes[0]), parseInt(emoteIndexes[1])];
-                        for (let i = emoteIndexes[0]; i <= emoteIndexes[1]; ++i) {
-                            newMessage[i] = "";
-                        }
-                        newMessage[emoteIndexes[0]] = `<img class="emoticon" src="https://static-cdn.jtvnw.net/emoticons/v1/${emoteIndex}/3.0"/>`;
-                    }
-                }
-            }
-        }
-
-        return newMessage.join("");
+        return message;
     }
 }

@@ -2,13 +2,13 @@
 // Command: !alert <text>
 // Description: will display whatever text comes after the !alert command
 // =======================================
-actionHandlers['!alert'] = {
+actionHandlers['#alert'] = {
     security: (context, textContent) => {
         return context.mod || (context["badges-raw"] != null && context["badges-raw"].startsWith("broadcaster"))
     },
     handle: (context, textContent) => {
-        const formattedText = popup.formatEmotes(textContent, context.emotes, true).substr(7);
-        popup.showText(formattedText, alertBg);
+        const formattedText = popup.formatMessage(textContent, makeAlertUpperCase).substr(7);
+        popup.showText(formattedText, alertBg, alertTextColour, textFont);
     }
 };
 
@@ -17,7 +17,7 @@ actionHandlers['!alert'] = {
 // Command: !delete
 // Description: This delete command resets the whole pop up system
 // =======================================
-actionHandlers['!delete'] = {
+actionHandlers['###'] = {
     security: (context, textContent) => {
         return context.mod || (context["badges-raw"] != null && context["badges-raw"].startsWith("broadcaster"))
     },
@@ -40,7 +40,7 @@ actionHandlers['!spotlight'] = {
     },
     handle: (context, textContent) => {
         spotlightUser = textContent.substr(12).toLowerCase();
-        popup.showText(`${spotlightEmoji} Welcome ${spotlightUser} to the stage!`, spotlightBg);
+        popup.showText(`${spotlightEmoji} Welcome ${spotlightUser} to the stage!`, spotlightBg, spotlightTextColour,textFont);
     }
 };
 
@@ -50,8 +50,8 @@ allHandlers.push({
         return context.username === spotlightUser && (!textContent.startsWith('@') || textContent.startsWith('@' + twitchChannel))
     },
     handle: (context, textContent) => {
-        const formattedText = popup.formatEmotes(textContent, context.emotes, false);
+        const formattedText = popup.formatMessage(textContent);
         console.log(formattedText);
-        popup.showText(`${spotlightEmoji} ${context['display-name']}: ${formattedText}`, spotlightBg);
+        popup.showText(`${spotlightEmoji} ${context['display-name']}: ${formattedText}`, spotlightBg, spotlightTextColour,textFont);
     }
 });
