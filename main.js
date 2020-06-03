@@ -2,8 +2,10 @@ const opts = {
     channels: [
         twitchChannel
     ],
-    secure: location.protocol == "https"
-};
+    connection: {
+        secure: true,
+        reconnect: true
+    },};
 
 let actionHandlers = {};
 let allHandlers = [];
