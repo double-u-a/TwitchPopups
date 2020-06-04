@@ -1,7 +1,5 @@
-// =======================================
-// Command: !alert <text>
+// Command: #alert <text>
 // Description: will display whatever text comes after the !alert command
-// =======================================
 actionHandlers['#alert'] = {
     security: (context, textContent) => {
         return context.mod || (context["badges-raw"] != null && context["badges-raw"].startsWith("broadcaster"))
@@ -13,10 +11,8 @@ actionHandlers['#alert'] = {
 };
 
 
-// =======================================
-// Command: !delete
+// Command: ###
 // Description: This delete command resets the whole pop up system
-// =======================================
 actionHandlers['###'] = {
     security: (context, textContent) => {
         return context.mod || (context["badges-raw"] != null && context["badges-raw"].startsWith("broadcaster"))
@@ -28,13 +24,11 @@ actionHandlers['###'] = {
 };
 
 
-// =======================================
-// Command: !spotlight
+// Command: #spot
 // Description: spotlight [@username]: will display the chat of the specified user from that point on
-// =======================================
 var spotlightUser = "";
 
-actionHandlers['!spotlight'] = {
+actionHandlers['#spot'] = {
     security: (context, textContent) => {
         return context.mod || (context["badges-raw"] != null && context["badges-raw"].startsWith("broadcaster"))
     },
